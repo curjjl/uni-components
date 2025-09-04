@@ -1,0 +1,40 @@
+name: Version Check
+
+on:
+  pull_request:
+    branches: [main]
+    
+jobs:
+  version-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code  
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Check version bump
+        run: |
+          # 获取main分支的package.json版本
+          git checkout origin/main -- package.json
+          MAIN_VERSION=$(node -p "require('./package.json').version")
+          
+          # 获取当前分支的package.json版本  
+          git checkout HEAD -- package.json
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          
+          echo "Main branch version: $MAIN_VERSION"
+          echo "Current branch version: $CURRENT_VERSION"
+          
+          if [ "$MAIN_VERSION" = "$CURRENT_VERSION" ]; then
+            echo "❌ 版本号未更新，请更新package.json中的版本号"
+            exit 1
+          else
+            echo "✅ 版本号已更新: $MAIN_VERSION -> $CURRENT_VERSION"
+          fi

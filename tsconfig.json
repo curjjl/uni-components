@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["packages/*"],
+      "@/components/*": ["packages/components/*"],
+      "@/utils/*": ["packages/utils/*"],
+      "@/types/*": ["packages/types/*"],
+      "@/theme/*": ["packages/theme/*"]
+    },
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist"
+  },
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.tsx", 
+    "packages/**/*.vue",
+    "playground/**/*.ts",
+    "playground/**/*.tsx",
+    "playground/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

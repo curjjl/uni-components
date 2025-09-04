@@ -1,0 +1,82 @@
+{
+  "name": "@yourcompany/uni-components",
+  "version": "0.1.0",
+  "description": "A Vue 3 component library based on Ant Design Vue",
+  "publishConfig": {
+    "registry": "https://npm.yourcompany.com/",
+    "access": "restricted"
+  },
+  "type": "module",
+  "main": "dist/uni-components.cjs",
+  "module": "dist/uni-components.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/uni-components.js",
+      "require": "./dist/uni-components.cjs"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "build:lib": "vite build --config vite.config.lib.ts",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint:check": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
+    "type-check": "vue-tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "prepublishOnly": "node scripts/check-publish.js",
+    "quality-check": "npm run lint:check && npm run type-check && npm run test",
+    "prerelease": "node scripts/release.js",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish", 
+    "release:major": "npm version major && npm publish",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "publish:dry": "npm publish --dry-run"
+  },
+  "dependencies": {
+    "ant-design-vue": "^4.2.3",
+    "vue": "^3.4.29"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.10.3",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "@vue/test-utils": "^2.4.6",
+    "@types/node": "^20.14.5",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.26.0",
+    "jsdom": "^24.1.0",
+    "prettier": "^3.3.2",
+    "typescript": "^5.4.0",
+    "vite": "^5.3.1",
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^1.6.0",
+    "vue-tsc": "^2.0.21"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "component-library",
+    "ant-design-vue",
+    "typescript",
+    "vite"
+  ],
+  "author": "",
+  "license": "MIT"
+}
