@@ -1,14 +1,10 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 
 export default defineConfig({
   plugins: [vue()],
-  test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: ["./test/setup.ts"],
-  },
+  root: "./docs",
   resolve: {
     alias: {
       "@": resolve(__dirname, "packages"),
@@ -17,5 +13,12 @@ export default defineConfig({
       "@/types": resolve(__dirname, "packages/types"),
       "@/theme": resolve(__dirname, "packages/theme"),
     },
+  },
+  server: {
+    port: 3000,
+    open: true,
+  },
+  build: {
+    outDir: "../docs-dist",
   },
 });

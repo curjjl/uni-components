@@ -1,9 +1,10 @@
-import Button from './Button.vue'
-import type { App } from 'vue'
+import Button from "./Button.vue";
+import type { App } from "vue";
 
 Button.install = (app: App) => {
-  app.component(Button.name!, Button)
-}
+  app.component("UniButton", Button);
+  app.component("uni-button", Button);
+};
 
-export default Button
-export type { ButtonProps, ButtonSlots } from '@/types/button'
+export default Button;
+export type { ButtonProps, ButtonSlots } from "@/types/button";

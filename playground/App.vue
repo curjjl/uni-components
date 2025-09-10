@@ -1,10 +1,10 @@
 <template>
   <div class="playground">
     <h1>Uni Components Playground</h1>
-    
+
     <section class="demo-section">
       <h2>Button 组件示例</h2>
-      
+
       <div class="demo-group">
         <h3>基础按钮</h3>
         <div class="button-group">
@@ -52,7 +52,8 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 h1 {

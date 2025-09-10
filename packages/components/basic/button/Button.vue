@@ -20,8 +20,8 @@
         'uni-button--danger': danger,
         'uni-button--ghost': ghost,
         'uni-button--loading': loading,
-        'uni-button--disabled': disabled
-      }
+        'uni-button--disabled': disabled,
+      },
     ]"
     @click="handleClick"
   >
@@ -33,34 +33,34 @@
 </template>
 
 <script setup lang="ts">
-import { Button as AButton } from 'ant-design-vue'
-import type { ButtonProps } from '@/types/button'
+import { Button as AButton } from "ant-design-vue";
+import type { ButtonProps } from "@/types/button";
 
 defineOptions({
-  name: 'UniButton'
-})
+  name: "UniButton",
+});
 
 const props = withDefaults(defineProps<ButtonProps>(), {
-  type: 'default',
-  size: 'middle',
-  htmlType: 'button',
+  type: "default",
+  size: "middle",
+  htmlType: "button",
   disabled: false,
   loading: false,
   block: false,
   danger: false,
   ghost: false,
-  shape: 'default'
-})
+  shape: "default",
+});
 
 const emit = defineEmits<{
-  click: [event: MouseEvent]
-}>()
+  click: [event: MouseEvent];
+}>();
 
 const handleClick = (event: MouseEvent) => {
   if (!props.disabled && !props.loading) {
-    emit('click', event)
+    emit("click", event);
   }
-}
+};
 </script>
 
 <style scoped>

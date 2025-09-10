@@ -21,7 +21,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 npm install                    # Install dependencies
-npm run dev                   # Start development server (playground at http://localhost:3000)
+npm run dev                   # Start docs development server at http://localhost:3000
+npm run dev:playground        # Start playground server for component testing
 npm run build:lib            # Build library for distribution
 npm run lint                 # Lint and fix code issues  
 npm run lint:check           # Check lint issues without fixing
@@ -71,13 +72,23 @@ test/                      # Test setup and utilities
 - Built-in accessibility and interaction patterns
 - Custom enhancements through props and styling
 
-**Build System**: Dual configuration setup:
-- `vite.config.ts`: Development playground (`npm run dev`)
+**Multi-Environment Build System**: Three Vite configurations for different purposes:
+- `vite.config.ts`: Development playground server (`npm run dev:playground`)
+- `vite.config.docs.ts`: Documentation site server (`npm run dev`) running on port 3000
 - `vite.config.lib.ts`: Library build with TypeScript declarations (`npm run build:lib`)
 
-**Path Aliases**: Consistent `@/` prefix mapping to `packages/` directory enables clean imports across the monorepo structure.
+**Path Aliases**: Consistent `@/` prefix mapping to `packages/` directory enables clean imports:
+```typescript
+'@': resolve(__dirname, 'packages'),
+'@/components': resolve(__dirname, 'packages/components'),
+'@/utils': resolve(__dirname, 'packages/utils'),
+'@/types': resolve(__dirname, 'packages/types'),
+'@/theme': resolve(__dirname, 'packages/theme')
+```
 
-**Publishing Strategy**: Scoped package `@yourcompany/uni-components` with internal npm registry configuration. Only scoped packages use internal registry while dev dependencies use public npm.
+**Publishing Strategy**: Scoped package `@yourcompany/uni-components` with internal npm registry. Automated quality gates via `prepublishOnly` hook run comprehensive checks and auto-build if needed.
+
+**Component Registration**: All components exported through main `packages/index.ts` with Vue plugin pattern supporting both full import (`app.use(UniComponents)`) and selective import (`import { Button } from '@yourcompany/uni-components'`).
 
 ## Component Development Patterns
 
@@ -85,8 +96,27 @@ test/                      # Test setup and utilities
 - **Export Pattern**: Components export both named export and Vue plugin with `.install()` method
 - **Type Definitions**: Centralized in `packages/types/` with shared base interfaces
 - **CSS Naming**: `uni-` prefix for component-specific styles, scoped CSS for isolation
-- **Testing**: Vitest with @vue/test-utils, focus on props, events, and edge cases
+- **Testing**: Vitest with @vue/test-utils and jsdom environment, includes ResizeObserver/IntersectionObserver mocks
+
+## Testing Setup
+
+**Test Environment**: Uses jsdom with global test utilities and setup files:
+- `vitest.config.ts`: Test configuration with same path aliases as main project
+- `test/setup.ts`: Mock browser APIs (ResizeObserver, IntersectionObserver) required for Ant Design Vue
+
+**Running Specific Tests**: Use standard Vitest patterns:
+```bash
+npm run test Button.test.ts        # Run specific test file
+npm run test -- --watch           # Watch mode
+npm run test:ui                    # Visual test runner
+```
 
 ## Publishing Workflow
 
-Uses automated quality gates via `prepublishOnly` hook and release scripts. Internal npm registry configured for `@yourcompany` scope only, allowing public dependencies while keeping company packages private.
+**Pre-publish Validation**: The `prepublishOnly` hook runs `scripts/check-publish.js` which validates:
+- Required files exist (README.md, CHANGELOG.md, .npmrc)
+- package.json has correct scoped name and entry points
+- Build artifacts exist in dist/ (auto-builds if missing)
+- Git working directory status
+
+**Release Process**: Automated versioning with `scripts/release.js` handles version bumping and publishing to internal registry configured for `@yourcompany` scope only.
